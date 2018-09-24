@@ -17,6 +17,7 @@ static value Val_some(value v) {
 
 CAMLprim
 value binary_plist_to_xml(value v) {
+    CAMLparam1(v);
     plist_t plist = NULL;
 
     char *out_plist_data = NULL;
@@ -27,20 +28,21 @@ value binary_plist_to_xml(value v) {
     mlsize_t in_plist_length = caml_string_length(v);
 
     if (!plist_is_binary(in_plist_data, in_plist_length)) {
-        return Val_some(v);
+        CAMLreturn(Val_some(v));
     }
 
     plist_from_memory(in_plist_data, caml_string_length(v), &plist);
     if (!plist) {
-        return Val_none;
+        CAMLreturn(Val_none);
     }
 
     plist_to_xml(plist, &out_plist_data, &out_plist_length);
     if (!out_plist_data) {
-        return Val_none;
+        CAMLreturn(Val_none);
     }
 
-    value s = caml_copy_string(out_plist_data);
+	CAMLlocal1(s);
+    s = caml_copy_string(out_plist_data);
     free(out_plist_data);
-    return Val_some(s);
+    CAMLreturn(Val_some(s));
 }
