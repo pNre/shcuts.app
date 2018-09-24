@@ -1,0 +1,10 @@
+lib: [
+  "_build/install/default/lib/shortcuts/META" {"META"}
+  "_build/install/default/lib/shortcuts/opam" {"opam"}
+]
+bin: [
+  "_build/install/default/bin/shortcuts" {"shortcuts"}
+]
+doc: [
+  "_build/install/default/doc/shortcuts/README.md"
+]

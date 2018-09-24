@@ -1,0 +1,14 @@
+opam-version: "1.2"
+maintainer: "mail@pierluigi.me"
+authors: ["pNre"]
+homepage: "https://github.com/pNre/shortcuts"
+bug-reports: "https://github.com/pNre/shortcuts/issues"
+dev-repo: "https://github.com/pNre/shortcuts.git"
+
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+]
+
+depends: [
+  "dune" {build & >= "1.0"}
+]
