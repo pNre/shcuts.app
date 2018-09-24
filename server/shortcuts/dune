@@ -1,4 +1,4 @@
 (executable
  (name main)
  (public_name shortcuts)
- (libraries async async_ssl cohttp cohttp-async base64 nocrypto yojson atdgen server))
+ (libraries async async_ssl cohttp cohttp-async yojson dispatcher))

@@ -2,6 +2,7 @@ open Async
 open Async_extra
 open Async_unix
 open Core
+open Cohttp_async
 
 let serve_local_file ~docroot ~uri = 
   Cohttp_async.Server.resolve_local_file ~docroot ~uri
@@ -14,14 +15,14 @@ let dispatch ~docroot ~body:body sock req =
   Log.Global.info "Dispatching %s" (String.concat ?sep:(Some ", ") parts);
   match parts with
   | "/" :: "shortcuts" :: _ -> 
-    Server.dispatch ~body:body sock req
+    Dispatcher.dispatch ~body:body sock req
   | "/" :: [filename] when let (_, ext) = Filename.split_extension filename in ext = Some "js" ->
     serve_local_file ~docroot ~uri:uri
   | _ ->
     serve_local_file ~docroot ~uri:(Uri.with_path uri "/index.html")
 
 let main docroot () =
-  Cohttp_async.Server.create ~on_handler_error:`Raise (Tcp.Where_to_listen.of_port 1234) (dispatch ~docroot:docroot)
+  Server.create ~on_handler_error:`Raise (Tcp.Where_to_listen.of_port 1234) (dispatch ~docroot:docroot)
   >>= fun _ -> Deferred.never ()
 
 let () =
