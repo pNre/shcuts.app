@@ -9,14 +9,19 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-          path: '/',
-          name: 'home',
-          component: Home,
+            path: '/',
+            name: 'home',
+            component: Home,
         },
         {
-          path: '/shortcut/:name',
-          name: 'shortcut',
-          component: () => import('@/Views/Shortcut.vue'),
+            path: '/shortcut/:name',
+            name: 'shortcut',
+            component: () => import('@/Views/Shortcut.vue'),
+        },
+        {
+            path: '/shortcut/fetch/:id',
+            name: 'fetched_shortcut',
+            component: () => import('@/Views/Shortcut.vue'),
         },
     ],
 });

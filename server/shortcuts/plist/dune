@@ -1,0 +1,5 @@
+(library
+ (name plist)
+ (c_names plist)
+ (c_flags (-I/usr/local/Cellar/libplist/2.0.0/include -L/usr/local/Cellar/libplist/2.0.0/lib -lplist))
+ (c_library_flags (-I/usr/local/Cellar/libplist/2.0.0/include -L/usr/local/Cellar/libplist/2.0.0/lib -lplist)))

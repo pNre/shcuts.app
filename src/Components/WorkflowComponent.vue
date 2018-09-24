@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { Workflow } from '@/Workflow/Workflow';
 
@@ -24,12 +24,19 @@ import { Workflow } from '@/Workflow/Workflow';
 export default class WorkflowComponent extends Vue {
     @Prop({default: undefined})
     private name?: string;
+    @Prop({default: undefined})
+    private id?: string;
 
     private workflow: Workflow | null = null;
 
     private async created() {
         try {
-            const response = await axios.get('/' + (this.name || 'test.plist'));
+            let response: AxiosResponse<any>;
+            if (this.name) {
+                response = await axios.get('/' + this.name);
+            } else {
+                response = await axios.get('/shortcuts/fetch/' + this.id);
+            }
             this.workflow = Workflow.fromSource(response.data);
         } catch (e) {
             console.error(e);

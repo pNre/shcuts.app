@@ -1,6 +1,6 @@
 <template>
     <div>
-        <WorkflowComponent :name="$route.params.name" />
+        <WorkflowComponent :name="$route.params.name" :id="$route.params.id" />
     </div>
 </template>
 
