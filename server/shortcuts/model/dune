@@ -1,0 +1,3 @@
+(library
+ (name model)
+ (libraries uri))

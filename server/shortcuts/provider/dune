@@ -1,0 +1,3 @@
+(library
+ (name provider)
+ (libraries core async async_ssl cohttp cohttp-async yojson plist shared model))
