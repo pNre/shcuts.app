@@ -8,10 +8,13 @@ module type S = sig
     unit -> (unit, error) result Async.Deferred.t
   
   val add_shortcut :
-    Model.Shortcut.t -> (unit, error) result Async.Deferred.t
+    Model.Shortcut_j.t -> (unit, error) result Async.Deferred.t
   
+  val shortcuts_of_page :
+    int * int -> (Model.Shortcut_j.t list, error) result Async.Deferred.t
+
   val shortcut_of_id :
-    string -> (Model.Shortcut.t, error) result Async.Deferred.t
+    string -> (Model.Shortcut_j.t, error) result Async.Deferred.t
 
   val string_of_error :
     error -> string

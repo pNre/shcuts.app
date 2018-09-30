@@ -1,3 +1,3 @@
 (library
  (name storage)
- (libraries core async caqti-async caqti-driver-postgresql model))
+ (libraries core core_extended async caqti-async caqti-driver-postgresql model))

@@ -6,7 +6,7 @@ open Cohttp_async
 
 let serve_local_file ~docroot ~uri = 
   Cohttp_async.Server.resolve_local_file ~docroot ~uri
-  |> Cohttp_async.Server.respond_with_file ~error_body:Shared.not_found_body
+  |> Cohttp_async.Server.respond_with_file ~error_body:Shared.Server.not_found_body
 
 let is_static_resource filename =
   let exts = ["js"; "css"; "png"; "jpg"] in
@@ -14,14 +14,14 @@ let is_static_resource filename =
   | (_, Some ext) -> List.exists exts ~f:(fun x -> x = ext)
   | _ -> false
 
-let dispatch ~docroot ~body:body sock req =
+let dispatch ~docroot ~body:body address req =
   let uri = Cohttp.Request.uri req in
   let path = Uri.path uri in
   let parts = Filename.parts path in
   Log.Global.info "Dispatching %s" (String.concat ?sep:(Some ", ") parts);
   match parts with
   | "/" :: "shortcuts" :: _ -> 
-    Dispatcher.dispatch ~body:body sock req
+    Dispatcher.dispatch ~body:body address req
   | "/" :: [filename] when is_static_resource filename ->
     serve_local_file ~docroot ~uri:uri
   | _ ->
