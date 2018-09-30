@@ -1,16 +1,18 @@
 <template>
-    <div>
-        <WorkflowComponent :name="$route.params.name" :id="$route.params.id" />
+    <div class="columns">
+        <div class="column col-8 col-md-12 col-mx-auto">
+            <ShortcutComponent :id="$route.params.id" />
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import WorkflowComponent from '@/Components/WorkflowComponent.vue';
+import ShortcutComponent from '@/Components/ShortcutComponent.vue';
 
 @Component({
     components: {
-        WorkflowComponent,
+        ShortcutComponent,
     },
 })
 export default class Shortcut extends Vue {}

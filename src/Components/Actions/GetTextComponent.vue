@@ -1,14 +1,14 @@
 <template>
     <ActionComponent v-bind:action="action">
-        <div class="card-body">
-            <pre class="code"><component :is="action.WFTextActionText.componentConstructor()"></component></pre>
+        <div class="card-body" v-if="action.WFTextActionText">
+            <component :is="action.WFTextActionText.componentConstructor()"></component>
         </div>
     </ActionComponent>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Action } from '@/Workflow/Action';
+import { Action } from '@/Shortcut/Action';
 import ActionComponent from '@/Components/Actions/ActionComponent.vue';
 
 @Component({

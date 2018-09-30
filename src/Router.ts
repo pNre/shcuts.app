@@ -14,13 +14,8 @@ export default new Router({
             component: Home,
         },
         {
-            path: '/shortcut/:name',
+            path: '/shortcut/:id',
             name: 'shortcut',
-            component: () => import('@/Views/Shortcut.vue'),
-        },
-        {
-            path: '/shortcut/fetch/:id',
-            name: 'fetched_shortcut',
             component: () => import('@/Views/Shortcut.vue'),
         },
     ],

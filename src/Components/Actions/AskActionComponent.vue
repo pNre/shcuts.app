@@ -1,7 +1,7 @@
 <template>
     <ActionComponent v-bind:action="action">
         <div class="card-body">
-            <div class="tile tile-centered">
+            <div class="tile tile-centered" v-if="action.WFAskActionPrompt">
                 <div class="tile-content">
                     <div class="tile-title text-gray">Question</div>
                     <div class="tile-subtitle">
@@ -9,7 +9,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tile tile-centered">
+            <div class="tile tile-centered" v-if="action.WFAskActionDefaultAnswer">
                 <div class="tile-content">
                     <div class="tile-title text-gray">Default Answer</div>
                     <div class="tile-subtitle">  
@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Action } from '@/Workflow/Action';
+import { Action } from '@/Shortcut/Action';
 import ActionComponent from '@/Components/Actions/ActionComponent.vue';
 
 @Component({

@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "./run.sh",
+    "serve": "vue-cli-service build --mode debug --watch",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@types/uuid": "^3.4.4",
     "axios": "^0.18.0",
+    "ical.js": "^1.2.2",
     "plist": "^3.0.1",
     "spectre.css": "^0.5.3",
     "uuid": "^3.3.2",

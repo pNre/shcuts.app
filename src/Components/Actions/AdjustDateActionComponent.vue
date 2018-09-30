@@ -1,10 +1,10 @@
 <template>
     <ActionComponent v-bind:action="action">
-        <div class="card-body">
+        <div v-if="action.WFAdjustOffsetPicker" class="card-body">
             <div class="tile tile-centered">
                 <div class="tile-content">
                     <div class="tile-title">
-                        <component :is="action.WFAdjustOffsetPicker.componentConstructor()" :value="action.WFAdjustOffsetPicker"></component>
+                        <component :is="action.WFAdjustOffsetPicker.componentConstructor()" />
                     </div>
                 </div>
             </div>
@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Action } from '@/Workflow/Action';
+import { Action } from '@/Shortcut/Action';
 import ActionComponent from '@/Components/Actions/ActionComponent.vue';
 
 @Component({
