@@ -18,7 +18,7 @@ let dispatch ~docroot ~body:body address req =
   let uri = Cohttp.Request.uri req in
   let path = Uri.path uri in
   let parts = Filename.parts path in
-  Log.Global.info "Dispatching %s" (String.concat ?sep:(Some ", ") parts);
+  Log.Global.debug "Dispatching %s" (String.concat ?sep:(Some ", ") parts);
   match parts with
   | "/" :: "shortcuts" :: _ -> 
     Dispatcher.dispatch ~body:body address req
@@ -27,8 +27,11 @@ let dispatch ~docroot ~body:body address req =
   | _ ->
     serve_local_file ~docroot ~uri:(Uri.with_path uri "/index.html")
 
+let log_handler_error _address exn =
+  Log.Global.error "Error %s" (Exn.to_string exn)
+
 let main docroot port () =
-  Server.create ~on_handler_error:`Raise (Tcp.Where_to_listen.of_port port) (dispatch ~docroot:docroot)
+  Server.create ~on_handler_error:(`Call log_handler_error) (Tcp.Where_to_listen.of_port port) (dispatch ~docroot:docroot)
   >>= fun _ -> Deferred.never ()
 
 let () =

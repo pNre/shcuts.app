@@ -1,5 +1,6 @@
 module type Cache = sig
-  val drop : unit -> unit
+  val drop_shortcuts : unit -> unit
+  val drop_generic : unit -> unit
   val add_shortcut : Model.Shortcut_t.t -> unit
   val shortcut_of_id : string -> Model.Shortcut_j.t option
   val add_shortcuts : int * int -> Model.Shortcut_t.t list -> unit
@@ -13,8 +14,10 @@ module Make: Cache = struct
   let shortcut_cache = Cache.Lru.create ~destruct:None 256
   let generic_cache = Cache.Lru.create ~destruct:None 16
 
-  let drop () =
-    Cache.Lru.clear shortcut_cache;
+  let drop_shortcuts () =
+    Cache.Lru.clear shortcut_cache
+  
+  let drop_generic () = 
     Cache.Lru.clear generic_cache
   
   let add_shortcut shortcut =

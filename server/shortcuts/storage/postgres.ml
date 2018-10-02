@@ -47,6 +47,7 @@ module Make (Conf: Config): Interface.S = struct
         {|
           SELECT id, name, description, color
           FROM shortcuts
+          ORDER BY insert_time DESC
           OFFSET ?
           LIMIT ?
         |}

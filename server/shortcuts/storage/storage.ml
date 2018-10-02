@@ -16,7 +16,8 @@ module Main: Interface.S = struct
   type error = Pg.error
 
   let drop () = 
-    Ch.drop ();
+    Ch.drop_shortcuts ();
+    Ch.drop_generic ();
     Pg.drop ()
 
   let create = Pg.create
@@ -25,6 +26,7 @@ module Main: Interface.S = struct
     Ch.add_shortcut s; s
 
   let add_shortcut s =
+    Ch.drop_generic ();
     s
     |> cache_add_shortcut
     |> Pg.add_shortcut

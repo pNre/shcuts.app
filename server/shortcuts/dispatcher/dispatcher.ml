@@ -27,8 +27,11 @@ let find_shortcut remote_address id =
       let message = Exn.to_string e in
       Shared.Server.respond_with_internal_server_error ~message
 
-let list_shortcuts () =
-  Storage.Main.shortcuts_of_page (0, 20)
+let list_shortcuts uri =
+  let page = Uri.get_query_param uri "o" 
+    |> Option.value_map ~default:None ~f:int_of_string_opt 
+    |> Option.value ~default:0 in
+  Storage.Main.shortcuts_of_page (page, 32)
   >>= function
   | Ok shortcuts -> 
     shortcuts
@@ -45,6 +48,6 @@ let dispatch ~body:_body address req =
   let path = Uri.path uri in
   let parts = Filename.parts path in
   match List.rev parts with
-  | [_; "/"] | ["/"; _] -> list_shortcuts ()
+  | [_; "/"] | ["/"; _] -> list_shortcuts uri
   | id :: "s" :: _ -> find_shortcut remote_address id
   | _ -> Shared.Server.respond_with_not_found
