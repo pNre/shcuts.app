@@ -1,9 +1,9 @@
 <template>
     <div class="column col-3">
-        <div class="card shortcut-card c-hand" :style="{height: '60px'}" @click="openShortcut">
-            <div class="card-header">
+        <div class="card shortcut-card c-hand" :style="{height: '80px'}" @click="openShortcut">
+            <div class="card-header shortcut-card-header">
                 <div class="card-title shortcut-card-title h5" :style="titleStyle">{{shortcut.name}}</div>
-                <div class="card-subtitle">{{ shortcut.description }}</div>
+                <!-- <div class="card-subtitle">{{ shortcut.description }}</div> -->
             </div>
             <div class="shortcut-card-tint" :style="tintStyle">
             </div>
@@ -22,12 +22,23 @@
     }
 }
 
+.shortcut-card-header {
+    height: 90%;
+}
+
+.shortcut-card-title {
+    display: block;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 2.4em;
+    line-height: 1.2em;
+}
+
 .shortcut-card-tint {
-    position: relative;
     bottom: 0;
     width: 100%;
-    height: 0.6rem;
-    position: absolute;
+    height: 10%;
 }
 </style>
 
@@ -46,7 +57,10 @@ export default class MiniShortcutComponent extends Vue {
         const R = f >> 16;
         const G = f >> 8 & 0x00FF;
         const B = f & 0x0000FF;
-        return (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1); 
+        const outR = ('0' + (Math.round((t - R) * p) + R).toString(16)).substring(-2);
+        const outG = ('0' + (Math.round((t - G) * p) + G).toString(16)).substring(-2);
+        const outB = ('0' + (Math.round((t - B) * p) + B).toString(16)).substring(-2);
+        return outR + outG + outB;
     }
 
     private get titleStyle(): any {

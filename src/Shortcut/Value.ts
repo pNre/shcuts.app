@@ -1,11 +1,16 @@
 import { SerializedValue } from '@/Shortcut/SerializedValue';
-import { Attachment } from '@/Shortcut/Attachment';
+import { Attachment } from '@/Shortcut/SerializedValues/Attachment';
 import { ComponentProvider } from '@/Shortcut/ComponentProvider';
 import Vue, { VueConstructor } from 'vue';
 import { fail } from 'assert';
 
 abstract class ValueType implements ComponentProvider {
     public abstract description(): string;
+
+    public get isEmpty(): boolean {
+        return false;
+    }
+
     public componentConstructor(): VueConstructor {
         return Vue.extend({
             render: (createElement) => {
@@ -25,6 +30,20 @@ export class BooleanValue extends ValueType {
 
     public description(): string {
         return this.bool ? 'Yes' : 'No';
+    }
+
+    public componentConstructor(): VueConstructor {
+        return Vue.extend({
+            render: (createElement) => {
+                let attrs = { type: 'checkbox', disabled: 'disabled' };
+                if (this.bool) {
+                    attrs = Object.assign(attrs, { checked: 'checked' });
+                }
+                const field = createElement('input', { attrs });
+                const icon = createElement('i', { class: 'form-icon' });
+                return createElement('label', { class: 'form-switch' }, [field, icon]);
+            },
+        });
     }
 }
 
@@ -54,11 +73,12 @@ export class NumberValue extends ValueType {
     }
 }
 
-export class ItemValue implements ValueType {
+export class ItemValue extends ValueType {
     public WFItemType: number;
     public WFValue: SerializedValue;
 
     constructor(source: any) {
+        super();
         this.WFItemType = source.WFItemType;
         this.WFValue = new SerializedValue(source.WFValue);
     }

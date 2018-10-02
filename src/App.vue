@@ -62,6 +62,16 @@ header {
 .label {
     border-radius: 10px;
 }
+
+.bar-item {
+    background: $gray-color !important;
+}
+
+.form-switch {
+    input:disabled + .form-icon {
+        opacity: 1;
+    }
+}
 </style>
 
 <script lang="ts">

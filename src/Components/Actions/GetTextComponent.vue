@@ -1,6 +1,6 @@
 <template>
     <ActionComponent v-bind:action="action">
-        <div class="card-body" v-if="action.WFTextActionText">
+        <div class="card-body" v-if="action.WFTextActionText && action.WFTextActionText.length > 0">
             <component :is="action.WFTextActionText.componentConstructor()"></component>
         </div>
     </ActionComponent>

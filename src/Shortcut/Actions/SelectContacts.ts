@@ -7,7 +7,7 @@ export default class SelectContactsAction extends Action implements DefaultConte
     public WFSelectMultiple: Value;
 
     constructor(object: any) {
-        super(() => 'Select Contact', object, () => ActionComponent);
+        super(() => 'Select Contact', object, () => ActionComponent, () => '👤');
         this.WFSelectMultiple = (NewValue(object.WFWorkflowActionParameters.WFSelectMultiple) || NewValue(false))!;
     }
 

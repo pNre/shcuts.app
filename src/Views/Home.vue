@@ -9,7 +9,7 @@
                             <input type="text" class="form-input input-lg" placeholder="Shortcut iCloud URL" v-model="urlString">
                         </div>
                         <div class="column col-2 col-md-4 mt-2">
-                            <button class="btn btn-primary btn-lg input-group-btn" :style="{'padding-left': '1rem', 'padding-right': '1rem'}" :disabled="this.url == null">Preview</button>
+                            <button class="btn btn-primary btn-lg input-group-btn" :style="{'padding-left': '1rem', 'padding-right': '1rem'}" :disabled="!urlIsValid">Preview</button>
                         </div>
                     </div>
                 </form>
@@ -22,6 +22,9 @@
                     </template>
                 </div>
             </div>
+            <div class="container with-padding">
+                <button v-if="hasMoreContent" @click="loadMore" class="btn btn-sm">Load more</button>
+            </div>
         </div>
     </div>
 </template>
@@ -30,6 +33,7 @@
 import { Component, Prop, Vue, Model } from 'vue-property-decorator';
 import MiniShortcutComponent from '@/Components/MiniShortcutComponent.vue';
 import Path from 'path';
+import { Action, Getter } from 'vuex-class';
 
 @Component({
     components: {
@@ -39,6 +43,10 @@ import Path from 'path';
 export default class Home extends Vue {
     private urlString: string = '';
 
+    @Getter private shortcuts!: any[];
+    @Getter private hasMoreContent!: boolean;
+    @Action private loadShortcuts!: (config: any) => void;
+
     get url(): URL | null {
         try {
             return new URL(this.urlString);
@@ -47,8 +55,17 @@ export default class Home extends Vue {
         }
     }
 
+    get urlIsValid(): boolean {
+        const url = this.url;
+        if (!url) {
+            return false;
+        }
+
+        return url.hostname.endsWith('icloud.com');
+    }
+
     get contentRows(): any[][] {
-        const shortcuts = this.$store.state.shortcuts;
+        const shortcuts = this.shortcuts.slice();
 
         if (!shortcuts) {
             return [];
@@ -65,24 +82,22 @@ export default class Home extends Vue {
     }
 
     private created() {
-        this.$store.dispatch('loadShortcuts');
+        this.loadShortcuts({reset: true});
     }
 
     private submit() {
-        const url = this.url;
-        if (!url) {
+        if (!this.urlIsValid) {
             return false;
         }
 
-        if (!url.hostname.endsWith('icloud.com')) {
-            return false;
-        }
-
-        const pathComponents = url.pathname.split('/');
+        const pathComponents = this.url!.pathname.split('/');
         const id = pathComponents[pathComponents.length - 1];
         this.$router.push({ name: 'shortcut', params: { id } });
-
         return true;
+    }
+
+    private loadMore() {
+        this.loadShortcuts({reset: false});
     }
 }
 </script>

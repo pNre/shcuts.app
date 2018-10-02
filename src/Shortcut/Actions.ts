@@ -66,10 +66,48 @@ import NotificationAction from '@/Shortcut/Actions/Notification';
 import GetMyWorkflowsAction from '@/Shortcut/Actions/GetMyWorkflows';
 import MakeZipAction from '@/Shortcut/Actions/MakeZip';
 import DocumentPickerSaveAction from '@/Shortcut/Actions/DocumentPickerSave';
+import DetectPhoneNumberAction from '@/Shortcut/Actions/DetectPhoneNumber';
+import ChooseFromListAction from '@/Shortcut/Actions/ChooseFromList';
+import MobilePhoneCallAction from '@/Shortcut/Actions/MobilePhoneCall';
+import PropertiesContactAction from '@/Shortcut/Actions/PropertiesContact';
+import FilterContactsAction from '@/Shortcut/Actions/FilterContacts';
+import FacetimeAction from '@/Shortcut/Actions/Facetime';
+import WhatsAppSendAction from '@/Shortcut/Actions/WhatsAppSend';
+import WhatsAppOpenInAction from '@/Shortcut/Actions/WhatsAppOpenIn';
+import TakePhotoAction from '@/Shortcut/Actions/TakePhoto';
+import TakeVideoAction from '@/Shortcut/Actions/TakeVideo';
+import ContactsAction from '@/Shortcut/Actions/Contacts';
+import WifiSetAction from '@/Shortcut/Actions/WifiSet';
+import CellularDataSetAction from '@/Shortcut/Actions/CellularDataSet';
+import BluetoothSetAction from '@/Shortcut/Actions/BluetoothSet';
+import AirplaneModeSetAction from '@/Shortcut/Actions/AirplaneModeSet';
+import SetBrightnessAction from '@/Shortcut/Actions/SetBrightness';
+import LowPowerModeSetAction from '@/Shortcut/Actions/LowPowerModeSet';
+import PauseMusicAction from '@/Shortcut/Actions/PauseMusic';
+import ShareAction from '@/Shortcut/Actions/Share';
+import SaveToCameraRollAction from '@/Shortcut/Actions/SaveToCameraRoll';
+import SearchMapsAction from '@/Shortcut/Actions/SearchMaps';
+import FilterLocationsAction from '@/Shortcut/Actions/FilterLocations';
+import FileDeleteAction from '@/Shortcut/Actions/FileDelete';
+import DocumentPickerOpenAction from '@/Shortcut/Actions/DocumentPickerOpen';
+import SetItemNameAction from '@/Shortcut/Actions/SetItemName';
+import FileAppendAction from '@/Shortcut/Actions/FileAppend';
+import GenerateBarcodeAction from '@/Shortcut/Actions/GenerateBarcode';
+import PreviewDocumentAction from '@/Shortcut/Actions/PreviewDocument';
+import DetectLinkAction from '@/Shortcut/Actions/DetectLink';
+import DictionaryAction from '@/Shortcut/Actions/Dictionary';
+import GetMarkdownFromRichTextAction from '@/Shortcut/Actions/GetMarkdownFromRichText';
+import GetClipboardAction from '@/Shortcut/Actions/GetClipboard';
+import TextMatchAction from '@/Shortcut/Actions/TextMatch';
+import RemoveRemindersAction from '@/Shortcut/Actions/RemoveReminders';
+import FilterRemindersAction from '@/Shortcut/Actions/FilterReminders';
+import PropertiesRemindersAction from '@/Shortcut/Actions/PropertiesReminders';
+import GetHTMLFromRichTextAction from '@/Shortcut/Actions/GetHTMLFromRichText';
+import GetURLComponentAction from '@/Shortcut/Actions/GetURLComponent';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
-        super(() => object.WFWorkflowActionIdentifier, object, () => ActionComponent);
+        super(() => object.WFWorkflowActionIdentifier, object, () => ActionComponent, () => '😶');
     }
 }
 
@@ -144,6 +182,44 @@ const Actions = {
     'is.workflow.actions.getmyworkflows': GetMyWorkflowsAction,
     'is.workflow.actions.makezip': MakeZipAction,
     'is.workflow.actions.documentpicker.save': DocumentPickerSaveAction,
+    'is.workflow.actions.detect.phonenumber': DetectPhoneNumberAction,
+    'is.workflow.actions.choosefromlist': ChooseFromListAction,
+    'com.apple.mobilephone.call': MobilePhoneCallAction,
+    'is.workflow.actions.properties.contacts': PropertiesContactAction,
+    'is.workflow.actions.filter.contacts': FilterContactsAction,
+    'com.apple.facetime.facetime': FacetimeAction,
+    'net.whatsapp.WhatsApp.send': WhatsAppSendAction,
+    'net.whatsapp.WhatsApp.openin': WhatsAppOpenInAction,
+    'is.workflow.actions.takephoto': TakePhotoAction,
+    'is.workflow.actions.takevideo': TakeVideoAction,
+    'is.workflow.actions.contacts': ContactsAction,
+    'is.workflow.actions.wifi.set': WifiSetAction,
+    'is.workflow.actions.cellulardata.set': CellularDataSetAction,
+    'is.workflow.actions.bluetooth.set': BluetoothSetAction,
+    'is.workflow.actions.airplanemode.set': AirplaneModeSetAction,
+    'is.workflow.actions.setbrightness': SetBrightnessAction,
+    'is.workflow.actions.lowpowermode.set': LowPowerModeSetAction,
+    'is.workflow.actions.pausemusic': PauseMusicAction,
+    'is.workflow.actions.share': ShareAction,
+    'is.workflow.actions.savetocameraroll': SaveToCameraRollAction,
+    'is.workflow.actions.searchmaps': SearchMapsAction,
+    'is.workflow.actions.filter.locations': FilterLocationsAction,
+    'is.workflow.actions.file.delete': FileDeleteAction,
+    'is.workflow.actions.documentpicker.open': DocumentPickerOpenAction,
+    'is.workflow.actions.setitemname': SetItemNameAction,
+    'is.workflow.actions.file.append': FileAppendAction,
+    'is.workflow.actions.generatebarcode': GenerateBarcodeAction,
+    'is.workflow.actions.previewdocument': PreviewDocumentAction,
+    'is.workflow.actions.detect.link': DetectLinkAction,
+    'is.workflow.actions.dictionary': DictionaryAction,
+    'is.workflow.actions.getmarkdownfromrichtext': GetMarkdownFromRichTextAction,
+    'is.workflow.actions.getclipboard': GetClipboardAction,
+    'is.workflow.actions.text.match': TextMatchAction,
+    'is.workflow.actions.removereminders': RemoveRemindersAction,
+    'is.workflow.actions.filter.reminders': FilterRemindersAction,
+    'is.workflow.actions.properties.reminders': PropertiesRemindersAction,
+    'is.workflow.actions.gethtmlfromrichtext': GetHTMLFromRichTextAction,
+    'is.workflow.actions.geturlcomponent': GetURLComponentAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};

@@ -12,9 +12,14 @@ export default class TextReplaceAction extends Action implements DefaultContentP
     constructor(object: any) {
         super(() => 'Replace Text', object, () => ActionComponent);
         this.WFReplaceTextCaseSensitive = (NewValue(object.WFWorkflowActionParameters.WFReplaceTextCaseSensitive) || NewValue(true))!;
-        this.WFReplaceTextRegularExpression = (NewValue(object.WFWorkflowActionParameters.WFReplaceTextRegularExpression) || NewValue(false))!;
         this.WFReplaceTextFind = NewValue(object.WFWorkflowActionParameters.WFReplaceTextFind);
         this.WFReplaceTextReplace = NewValue(object.WFWorkflowActionParameters.WFReplaceTextReplace);
+        const regex = NewValue(object.WFWorkflowActionParameters.WFReplaceTextRegularExpression);
+        if (regex) {
+            this.WFReplaceTextRegularExpression = regex;
+        } else {
+            this.WFReplaceTextRegularExpression = NewValue(false)!;
+        }
     }
 
     public defaultContent(): DefaultContent[] {

@@ -5,28 +5,42 @@ import { Shortcut } from '@/Shortcut/Shortcut';
 
 Vue.use(Vuex);
 
-interface Store {
+interface RootState {
     shortcuts: any[];
-    shortcutDetails: {
-        [key: string]: Shortcut,
-    };
+    shortcutDetails: { [key: string]: Shortcut };
     isLoading: boolean;
+    hasMoreContent: boolean;
 }
 
-export default new Vuex.Store<Store>({
+export default new Vuex.Store<RootState>({
     state: {
         shortcuts: [],
         shortcutDetails: {},
         isLoading: false,
+        hasMoreContent: true,
     },
     getters: {
+        shortcuts(state): any[] {
+            return state.shortcuts;
+        },
+        nextOffset(state): number {
+            return state.shortcuts.length;
+        },
         isLoading(state): boolean {
             return state.isLoading;
+        },
+        hasMoreContent(state): boolean {
+            return state.hasMoreContent;
         },
     },
     mutations: {
         updateShortcus(state, shortcuts) {
+            state.shortcuts = state.shortcuts.concat(shortcuts);
+            state.hasMoreContent = shortcuts.length > 0;
+        },
+        setShortcuts(state, shortcuts) {
             state.shortcuts = shortcuts;
+            state.hasMoreContent = shortcuts.length > 0;
         },
         updateShortcutDetail(state, shortcut) {
             Vue.set(state.shortcutDetails, shortcut.id, shortcut);
@@ -36,28 +50,33 @@ export default new Vuex.Store<Store>({
         },
     },
     actions: {
-        async loadShortcuts(state) {
-            state.commit('setIsLoading', true);
+        async loadShortcuts(context, { reset }) {
+            context.commit('setIsLoading', true);
+
             try {
-                const response = await axios.get('/shortcuts/');
-                state.commit('updateShortcus', response.data);
-            } catch (e) {
-                console.log(e);
-            }
-            state.commit('setIsLoading', false);
-        },
-        async loadShortcutDetail(state, id) {
-            state.commit('setIsLoading', true);
-            try {
-                const response = await axios.get('/shortcuts/s/' + id);
-                const shortcut = Shortcut.fromSource(response.data);
-                if (shortcut) {
-                    state.commit('updateShortcutDetail', shortcut);
+                const response = await axios.get('/shortcuts/?o=' + (reset ? 0 : context.getters.nextOffset));
+                if (Array.isArray(response.data)) {
+                    context.commit(reset ? 'setShortcuts' : 'updateShortcus', response.data);
                 }
             } catch (e) {
                 console.log(e);
             }
-            state.commit('setIsLoading', false);
+
+            context.commit('setIsLoading', false);
+        },
+        async loadShortcutDetail(context, id) {
+            context.commit('setIsLoading', true);
+            try {
+                const response = await axios.get('/shortcuts/s/' + id);
+                const shortcut = Shortcut.fromSource(response.data);
+                if (shortcut) {
+                    context.commit('updateShortcutDetail', shortcut);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+            context.commit('setIsLoading', false);
         },
     },
+    strict: process.env.NODE_ENV !== 'production',
 });

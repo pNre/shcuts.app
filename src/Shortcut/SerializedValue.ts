@@ -2,9 +2,11 @@ import { ComponentProvider } from '@/Shortcut/ComponentProvider';
 import Vue, { VueConstructor } from 'vue';
 import { TextTokenString } from '@/Shortcut/SerializedValues/TextTokenString';
 import { TimeOffsetValue } from '@/Shortcut/SerializedValues/TimeOffsetValue';
-import { Attachment } from '@/Shortcut/Attachment';
+import { Attachment } from '@/Shortcut/SerializedValues/Attachment';
 import { ContactFieldValue } from '@/Shortcut/SerializedValues/ContactFieldValue';
 import { DictionaryFieldValue } from '@/Shortcut/SerializedValues/DictionaryFieldValue';
+import { ContentPredicateTableTemplate } from '@/Shortcut/SerializedValues/ContentPredicateTableTemplate';
+import { NewValue } from '@/Shortcut/Value';
 
 export enum SerializationType {
     TextTokenString = 'WFTextTokenString',
@@ -12,6 +14,7 @@ export enum SerializationType {
     TextTokenAttachment = 'WFTextTokenAttachment',
     ContactFieldValue = 'WFContactFieldValue',
     DictionaryFieldValue = 'WFDictionaryFieldValue',
+    ContentPredicateTableTemplate = 'WFContentPredicateTableTemplate',
 }
 
 export class SerializedValue implements ComponentProvider {
@@ -34,13 +37,28 @@ export class SerializedValue implements ComponentProvider {
                 this.Value = new ContactFieldValue(source.Value);
                 break;
             case SerializationType.DictionaryFieldValue:
-                this.Value = new DictionaryFieldValue(source.Value);
+                if ('WFDictionaryFieldValueItems' in source.Value) {
+                    this.Value = new DictionaryFieldValue(source.Value);
+                } else {
+                    this.Value = NewValue(source.Value);
+                }
+                break;
+            case SerializationType.ContentPredicateTableTemplate:
+                this.Value = new ContentPredicateTableTemplate(source.Value);
                 break;
         }
     }
 
     public description(): string {
         return this.Value.description();
+    }
+
+    public get isEmpty(): boolean {
+        if (!('isEmpty' in this.Value)) {
+            return false;
+        }
+
+        return this.Value.isEmpty;
     }
 
     public componentConstructor(): VueConstructor {

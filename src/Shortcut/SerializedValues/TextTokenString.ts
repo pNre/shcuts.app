@@ -1,4 +1,4 @@
-import { Attachment } from '@/Shortcut/Attachment';
+import { Attachment } from '@/Shortcut/SerializedValues/Attachment';
 import Vue, { VueConstructor } from 'vue';
 
 export class TextTokenString {
@@ -14,19 +14,21 @@ export class TextTokenString {
     }
 
     public description(): string {
-        return this.tokens((x) => x).join('');
+        return (this.tokens((x) => x.description()) as string[]).join('');
     }
 
     public componentConstructor(): VueConstructor {
         return Vue.extend({
             render: (createElement) => {
-                const mapToken = (value: string) => createElement('span', { class: 'label' }, [value]);
-                return createElement('div', this.tokens(mapToken));
+                const mapToken = (value: Attachment) => {
+                    return createElement('span', [createElement(value.componentConstructor())]);
+                };
+                return createElement('span', this.tokens(mapToken));
             },
         });
     }
 
-    private tokens(mapToken: (value: string) => any): any[] {
+    private tokens(mapToken: (value: Attachment) => any): any[] {
         const rangePattern = /{(\d+),(?:\s+)?(\d+)}/;
         const offsets: { [key: number]: { length: number, attachment: Attachment } } = {};
         const indices: number[] = [];
@@ -42,6 +44,10 @@ export class TextTokenString {
             };
         }
 
+        if (indices.length === 0) {
+            return [this.string];
+        }
+
         const components: any[] = [];
         const sortedIndices = indices.sort((a, b) => b - a);
 
@@ -54,7 +60,7 @@ export class TextTokenString {
                 components.unshift(this.string.substring(offset + data.length, sortedIndices[i - 1]));
             }
 
-            components.unshift(mapToken(data.attachment.description()));
+            components.unshift(mapToken(data.attachment));
 
             if (i === sortedIndices.length - 1) {
                 components.unshift(this.string.substring(0, offset));
