@@ -1,0 +1,63 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/core/config/certs:/etc/nginx/certs:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '10'
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - /home/core/config/certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    logging:
+      driver: json-file
+      options:
+        max-size: 2m
+        max-file: '10'
+
+  shcutsapp:
+    container_name: shcutsapp
+    restart: always
+    build:
+      context: /home/core/shcutsapp/
+      dockerfile: Dockerfile
+    volumes:
+      - /home/core/shcutsapp/public:/public:ro
+    environment:
+      - VIRTUAL_HOST=shcuts.app
+      - LETSENCRYPT_HOST=shcuts.app
+      - LETSENCRYPT_EMAIL=mail@pierluigi.me
+    env_file:
+      - variables.env
+
+  db:
+    image: postgres
+    container_name: shcutsapp-db
+    restart: always
+    env_file:
+      - variables.env
+    volumes:
+      - /home/core/shcutsapp-db/data:/var/lib/postgresql/data

@@ -1,0 +1,3 @@
+#!/bin/sh
+cd build-image
+docker build -t shcuts-build-image .
