@@ -6,7 +6,7 @@ export default class AdjustDateAction extends Action {
     public WFAdjustOffsetPicker?: Value;
 
     constructor(source: any) {
-        super(() => 'Adjust Date', source, () => AdjustDateActionComponent);
+        super(() => 'Adjust Date', source, () => AdjustDateActionComponent, () => '📅');
         this.WFAdjustOffsetPicker = NewValue(source.WFWorkflowActionParameters.WFAdjustOffsetPicker);
     }
 }

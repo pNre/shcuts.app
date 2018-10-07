@@ -11,7 +11,7 @@ enum ConditionControlFlowMode {
 
 export default class ConditionalAction extends Action implements DefaultContentProviding {
     public GroupingIdentifier: string;
-    public WFCondition?: string;
+    public WFCondition: string;
     public WFControlFlowMode: ConditionControlFlowMode;
     public WFConditionalActionString?: Value;
     public WFNumberValue?: Value;
@@ -19,7 +19,7 @@ export default class ConditionalAction extends Action implements DefaultContentP
     constructor(object: any) {
         super(() => this.name(), object, () => ActionComponent, () => '⚙️');
         this.GroupingIdentifier = object.WFWorkflowActionParameters.GroupingIdentifier;
-        this.WFCondition = object.WFWorkflowActionParameters.WFCondition;
+        this.WFCondition = (object.WFWorkflowActionParameters.WFCondition || 'Contains');
         this.WFControlFlowMode = object.WFWorkflowActionParameters.WFControlFlowMode;
         this.WFConditionalActionString = NewValue(object.WFWorkflowActionParameters.WFConditionalActionString);
         this.WFNumberValue = NewValue(object.WFWorkflowActionParameters.WFNumberValue);

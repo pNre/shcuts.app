@@ -8,7 +8,7 @@ export default class PlayMusicAction extends Action implements DefaultContentPro
     public WFPlayMusicActionShuffle?: Value;
 
     constructor(object: any) {
-        super(() => 'Play Music', object, () => ActionComponent);
+        super(() => 'Play Music', object, () => ActionComponent, () => '🎶');
         this.WFPlayMusicActionRepeat = NewValue(object.WFWorkflowActionParameters.WFPlayMusicActionRepeat);
         this.WFPlayMusicActionShuffle = NewValue(object.WFWorkflowActionParameters.WFPlayMusicActionShuffle);
     }

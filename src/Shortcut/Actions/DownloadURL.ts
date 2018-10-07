@@ -14,7 +14,7 @@ export default class DownloadURLAction extends Action implements DefaultContentP
     public WFRequestVariable?: Value;
 
     constructor(object: any) {
-        super(() => 'Get Contents of URL', object, () => ActionComponent);
+        super(() => 'Get Contents of URL', object, () => ActionComponent, () => '🔗');
         this.Advanced = object.WFWorkflowActionParameters.Advanced || false;
         this.ShowHeaders = object.WFWorkflowActionParameters.ShowHeaders || false;
         this.WFHTTPMethod = (NewValue(object.WFWorkflowActionParameters.WFHTTPMethod) || NewValue('GET'))!;
@@ -68,15 +68,13 @@ export default class DownloadURLAction extends Action implements DefaultContentP
             });
         }
 
-        if (!this.ShowHeaders) {
-            return content;
+        if (this.ShowHeaders && this.WFHTTPHeaders) {
+            content.push({
+                title: 'Headers',
+                content: null,
+                componentConstructor: () => this.WFHTTPHeaders!.componentConstructor(),
+            });
         }
-
-        content.push({
-            title: 'Headers',
-            content: null,
-            componentConstructor: () => this.WFHTTPHeaders!.componentConstructor(),
-        });
 
         return content;
     }

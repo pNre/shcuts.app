@@ -10,7 +10,7 @@ export default class SendMessageAction extends Action implements DefaultContentP
     public ShowWhenRun: Value;
 
     constructor(object: any) {
-        super(() => 'Send Message', object, () => ActionComponent);
+        super(() => 'Send Message', object, () => ActionComponent, () => '💬');
         this.IntentAppIdentifier = NewValue(object.WFWorkflowActionParameters.IntentAppIdentifier);
         this.WFSendMessageContent = NewValue(object.WFWorkflowActionParameters.WFSendMessageContent);
         this.WFSendMessageActionRecipients = NewValue(object.WFWorkflowActionParameters.WFSendMessageActionRecipients);

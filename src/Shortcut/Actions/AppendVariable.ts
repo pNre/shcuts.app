@@ -7,7 +7,7 @@ export default class AppendVariableAction extends Action implements DefaultConte
     public WFVariableName?: Value;
 
     constructor(object: any) {
-        super(() => 'Add to Variable', object, () => ActionComponent);
+        super(() => 'Add to Variable', object, () => ActionComponent, () => '🔩');
         this.WFVariableName = NewValue(object.WFWorkflowActionParameters.WFVariableName);
     }
 

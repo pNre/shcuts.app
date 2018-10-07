@@ -77,7 +77,15 @@ const ContentPredicateProperties: { [key: string]: ContentPredicateProperty } = 
     'Is Not Completed': new ContentPredicateProperty('Is Not Completed', ContentPredicatePropertyType.Bool),
     'Has Alarms': new ContentPredicateProperty('Has Alarms', ContentPredicatePropertyType.Bool),
     'Has No Alarms': new ContentPredicateProperty('Has No Alarms', ContentPredicatePropertyType.Bool),
+    'Start Date': new ContentPredicateProperty('Start Date', ContentPredicatePropertyType.Date),
+    'Is All Day': new ContentPredicateProperty('Is All Day', ContentPredicatePropertyType.Bool),
+    'Calendar': new ContentPredicateProperty('Calendar', ContentPredicatePropertyType.Enumeration),
 };
+
+interface ChildElement {
+    tag: string;
+    content: any;
+}
 
 class ContentPredicateTemplate {
     public Operator: ContentPredicateTemplateOperator;
@@ -114,6 +122,8 @@ class ContentPredicateTemplate {
         }
 
         this.VariableOverrides = overrides;
+
+        console.log(source);
     }
 
     public componentConstructor(): VueConstructor {
@@ -122,10 +132,10 @@ class ContentPredicateTemplate {
                 const spacer = createElement('span', [' ']);
                 const children: VNode[] = [];
                 for (const child of this.children()) {
-                    if (typeof child === 'string') {
-                        children.push(createElement('span', child));
+                    if (child.hasOwnProperty('tag')) {
+                        children.push(createElement((child as ChildElement).tag, [(child as ChildElement).content]));
                     } else {
-                        children.push(createElement(child));
+                        children.push(createElement(child as VueConstructor<Vue>));
                     }
                     children.push(spacer);
                 }
@@ -156,79 +166,80 @@ class ContentPredicateTemplate {
                 if (this.Date) {
                     return this.Date!.toLocaleDateString();
                 }
-                return NewValue(this.VariableOverrides.dateValue);
+                return this.VariableOverrides.dateValue;
             case ContentPredicatePropertyType.Enumeration:
                 return this.Enumeration || NewValue(this.VariableOverrides.enumerationValue);
         }
     }
 
-    private children(): Array<VueConstructor<Vue> | string> {
-        const description: Array<VueConstructor<Vue> | string> = [this.Property];
+    private children(): Array<VueConstructor<Vue> | ChildElement> {
+        const description: Array<VueConstructor<Vue> | ChildElement> = [{ tag: 'span', content: this.Property }];
 
         switch (this.Operator) {
             case ContentPredicateTemplateOperator.IsBefore:
-                description.push('is before');
+                description.push({ tag: 'strong', content: 'is before' });
                 break;
             case ContentPredicateTemplateOperator.IsAfter:
-                description.push('is after');
+                description.push({ tag: 'strong', content: 'is after' });
                 break;
             case ContentPredicateTemplateOperator.Is:
-                description.push('is');
+                description.push({ tag: 'strong', content: 'is' });
                 break;
             case ContentPredicateTemplateOperator.IsNot:
-                description.push('is not');
+                description.push({ tag: 'strong', content: 'is not' });
                 break;
             case ContentPredicateTemplateOperator.BeginsWith:
-                description.push('begins with');
+                description.push({ tag: 'strong', content: 'begins with' });
                 break;
             case ContentPredicateTemplateOperator.EndsWith:
-                description.push('ends with');
+                description.push({ tag: 'strong', content: 'ends with' });
                 break;
             case ContentPredicateTemplateOperator.Contains:
-                description.push('contains');
+                description.push({ tag: 'strong', content: 'contains' });
                 break;
             case ContentPredicateTemplateOperator.DoesNotContain:
-                description.push('does not contain');
+                description.push({ tag: 'strong', content: 'does not contain' });
                 break;
             case ContentPredicateTemplateOperator.IsInTheNext:
-                description.push('is in the next');
+                description.push({ tag: 'strong', content: 'is in the next' });
                 break;
             case ContentPredicateTemplateOperator.IsInTheLast:
-                description.push('is in the last');
+                description.push({ tag: 'strong', content: 'is in the last' });
                 break;
             case ContentPredicateTemplateOperator.IsToday:
-                description.push('is today');
+                description.push({ tag: 'strong', content: 'is today' });
                 break;
             case ContentPredicateTemplateOperator.IsBetween:
-                description.push('is between');
+                description.push({ tag: 'strong', content: 'is between' });
                 break;
         }
 
-        const value = this.valueForType(ContentPredicateProperties[this.Property].type);
+        const type = ContentPredicateProperties[this.Property].type;
+        const value = this.valueForType(type);
 
-        if (value && 'componentConstructor' in value) {
+        if (value && typeof value.componentConstructor === 'function') {
             description.push(value.componentConstructor());
         } else if (value) {
-            description.push(value);
+            description.push({ tag: 'mark', content: value});
 
-            if (ContentPredicateProperties[this.Property].type === ContentPredicatePropertyType.Date) {
+            if (type === ContentPredicatePropertyType.Date) {
                 switch (this.Unit) {
                     case ContentPredicateTemplateUnit.Days:
-                        description.push('days');
+                        description.push({ tag: 'mark', content: 'days'});
                         break;
                     case ContentPredicateTemplateUnit.Months:
-                        description.push('months');
+                        description.push({ tag: 'mark', content: 'months'});
                         break;
                     case ContentPredicateTemplateUnit.Years:
-                        description.push('years');
+                        description.push({ tag: 'mark', content: 'years'});
                         break;
                     default:
                         description.push(this.VariableOverrides.unitValue.componentConstructor());
                         break;
                 }
             }
-        } else {
-            description.push('anything');
+        } else if (type === ContentPredicatePropertyType.String || type === ContentPredicatePropertyType.Enumeration) {
+            description.push({ tag: 'mark', content: 'anything' });
         }
 
         return description;

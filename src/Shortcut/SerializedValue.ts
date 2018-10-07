@@ -7,6 +7,7 @@ import { ContactFieldValue } from '@/Shortcut/SerializedValues/ContactFieldValue
 import { DictionaryFieldValue } from '@/Shortcut/SerializedValues/DictionaryFieldValue';
 import { ContentPredicateTableTemplate } from '@/Shortcut/SerializedValues/ContentPredicateTableTemplate';
 import { NewValue } from '@/Shortcut/Value';
+import { QuantityFieldValue } from '@/Shortcut/SerializedValues/QuantityFieldValue';
 
 export enum SerializationType {
     TextTokenString = 'WFTextTokenString',
@@ -15,6 +16,7 @@ export enum SerializationType {
     ContactFieldValue = 'WFContactFieldValue',
     DictionaryFieldValue = 'WFDictionaryFieldValue',
     ContentPredicateTableTemplate = 'WFContentPredicateTableTemplate',
+    QuantityFieldValue = 'WFQuantityFieldValue',
 }
 
 export class SerializedValue implements ComponentProvider {
@@ -45,6 +47,9 @@ export class SerializedValue implements ComponentProvider {
                 break;
             case SerializationType.ContentPredicateTableTemplate:
                 this.Value = new ContentPredicateTableTemplate(source.Value);
+                break;
+            case SerializationType.QuantityFieldValue:
+                this.Value = new QuantityFieldValue(source.Value);
                 break;
         }
     }

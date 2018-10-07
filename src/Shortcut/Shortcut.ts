@@ -20,9 +20,31 @@ export class Shortcut {
         return new Shortcut(data, plist);
     }
 
+    private static inputContentItemClasses: { [key: string]: string } = {
+        WFAppStoreAppContentItem: 'App Store apps',
+        WFArticleContentItem: 'Articles',
+        WFContactContentItem: 'Contacts',
+        WFDateContentItem: 'Dates',
+        WFEmailAddressContentItem: 'Email addresses',
+        WFGenericFileContentItem: 'Files',
+        WFImageContentItem: 'Images',
+        WFiTunesProductContentItem: 'iTunes products',
+        WFLocationContentItem: 'Locations',
+        WFDCMapsLinkContentItem: 'Maps links',
+        WFAVAssetContentItem: 'Media',
+        WFPDFContentItem: 'PDFs',
+        WFPhoneNumberContentItem: 'Phone numbers',
+        WFRichTextContentItem: 'Rich text',
+        WFSafariWebPageContentItem: 'Safari web pages',
+        WFStringContentItem: 'Text',
+        WFURLContentItem: 'URLs',
+    };
+
     public id: string;
     public name: string;
-    public actions: [any];
+    public description?: string;
+    public actions: any[];
+    public views?: number;
     public WFWorkflowClientRelease: string;
     public WFWorkflowClientVersion: string;
     public WFWorkflowInputContentItemClasses: string[];
@@ -34,9 +56,25 @@ export class Shortcut {
         return color.slice(0, -2);
     }
 
+    public get inputContentItemClassDescription(): string {
+        if (!this.WFWorkflowTypes.includes('ActionExtension')) {
+            return '';
+        }
+
+        if (this.WFWorkflowInputContentItemClasses.length === Object.entries(Shortcut.inputContentItemClasses).length) {
+            return 'Anything';
+        }
+
+        return this.WFWorkflowInputContentItemClasses
+            .map((x: string) => Shortcut.inputContentItemClasses[x])
+            .join(', ');
+    }
+
     private constructor(data: any, plist: any) {
         this.id = data.id;
         this.name = data.name;
+        this.description = data.description;
+        this.views = data.views;
         this.WFWorkflowClientRelease = plist.WFWorkflowClientRelease;
         this.WFWorkflowClientVersion = plist.WFWorkflowClientVersion;
         this.WFWorkflowInputContentItemClasses = plist.WFWorkflowInputContentItemClasses;

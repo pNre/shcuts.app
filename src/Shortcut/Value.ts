@@ -58,6 +58,10 @@ export class StringValue extends ValueType {
     public description(): string {
         return this.string;
     }
+
+    public get isEmpty(): boolean {
+        return super.isEmpty || this.string.length === 0;
+    }
 }
 
 export class NumberValue extends ValueType {

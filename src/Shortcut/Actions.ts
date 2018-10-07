@@ -104,6 +104,21 @@ import FilterRemindersAction from '@/Shortcut/Actions/FilterReminders';
 import PropertiesRemindersAction from '@/Shortcut/Actions/PropertiesReminders';
 import GetHTMLFromRichTextAction from '@/Shortcut/Actions/GetHTMLFromRichText';
 import GetURLComponentAction from '@/Shortcut/Actions/GetURLComponent';
+import UnzipAction from '@/Shortcut/Actions/Unzip';
+import GetWebPageContentsAction from '@/Shortcut/Actions/GetWebPageContents';
+import DetectImagesAction from '@/Shortcut/Actions/DetectImages';
+import URLEncodeAction from '@/Shortcut/Actions/URLEncode';
+import GetPlaylistAction from '@/Shortcut/Actions/GetPlaylist';
+import GetTravelTimeAction from '@/Shortcut/Actions/GetTravelTime';
+import GetUpcomingEventsAction from '@/Shortcut/Actions/GetUpcomingEvents';
+import PropertiesCalendarEventsAction from '@/Shortcut/Actions/PropertiesCalendarEvents';
+import GetDirectionsAction from '@/Shortcut/Actions/GetDirections';
+import HandoffAction from '@/Shortcut/Actions/Handoff';
+import DictateTextAction from '@/Shortcut/Actions/DictateText';
+import HealthQuantityAction from '@/Shortcut/Actions/HealthQuantityLog';
+import UserActivityOpenAction from '@/Shortcut/Actions/UserActivityOpen';
+import SendEmailAction from '@/Shortcut/Actions/SendEmail';
+import FilterCalendarEventsAction from '@/Shortcut/Actions/FilterCalendarEvents';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -220,6 +235,21 @@ const Actions = {
     'is.workflow.actions.properties.reminders': PropertiesRemindersAction,
     'is.workflow.actions.gethtmlfromrichtext': GetHTMLFromRichTextAction,
     'is.workflow.actions.geturlcomponent': GetURLComponentAction,
+    'is.workflow.actions.unzip': UnzipAction,
+    'is.workflow.actions.getwebpagecontents': GetWebPageContentsAction,
+    'is.workflow.actions.detect.images': DetectImagesAction,
+    'is.workflow.actions.urlencode': URLEncodeAction,
+    'is.workflow.actions.get.playlist': GetPlaylistAction,
+    'is.workflow.actions.gettraveltime': GetTravelTimeAction,
+    'is.workflow.actions.getupcomingevents': GetUpcomingEventsAction,
+    'is.workflow.actions.properties.calendarevents': PropertiesCalendarEventsAction,
+    'is.workflow.actions.getdirections': GetDirectionsAction,
+    'is.workflow.actions.handoff': HandoffAction,
+    'is.workflow.actions.dictatetext': DictateTextAction,
+    'is.workflow.actions.health.quantity.log': HealthQuantityAction,
+    'is.workflow.actions.useractivity.open': UserActivityOpenAction,
+    'is.workflow.actions.sendemail': SendEmailAction,
+    'is.workflow.actions.filter.calendarevents': FilterCalendarEventsAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};

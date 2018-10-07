@@ -5,7 +5,7 @@ export default class CommentAction extends Action {
     public WFCommentActionText?: string;
 
     constructor(object: any) {
-        super(() => 'Comment', object, () => CommentComponent, () => '🗣');
+        super(() => 'Comment', object, () => CommentComponent, () => '🖋');
         this.WFCommentActionText = object.WFWorkflowActionParameters.WFCommentActionText;
     }
 }

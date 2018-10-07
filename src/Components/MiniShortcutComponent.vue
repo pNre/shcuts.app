@@ -1,11 +1,9 @@
 <template>
     <div class="column col-3">
-        <div class="card shortcut-card c-hand" :style="{height: '80px'}" @click="openShortcut">
-            <div class="card-header shortcut-card-header">
-                <div class="card-title shortcut-card-title h5" :style="titleStyle">{{shortcut.name}}</div>
-                <!-- <div class="card-subtitle">{{ shortcut.description }}</div> -->
-            </div>
-            <div class="shortcut-card-tint" :style="tintStyle">
+        <div class="card shortcut-card c-hand" :style="cardStyle" @click="openShortcut">
+            <div class="card-header">
+                <div class="card-title shortcut-card-title h5">{{shortcut.name}}</div>
+                <div v-if="shortcut.description" class="card-subtitle shortcut-card-subtitle mt-1">{{shortcut.description}}</div>
             </div>
         </div>
     </div>
@@ -22,23 +20,20 @@
     }
 }
 
-.shortcut-card-header {
-    height: 90%;
+.shortcut-card-subtitle {
+    color: #efefef;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 .shortcut-card-title {
-    display: block;
     text-overflow: ellipsis;
     word-wrap: break-word;
     overflow: hidden;
     max-height: 2.4em;
     line-height: 1.2em;
-}
-
-.shortcut-card-tint {
-    bottom: 0;
-    width: 100%;
-    height: 10%;
+    color: white;
 }
 </style>
 
@@ -57,30 +52,45 @@ export default class MiniShortcutComponent extends Vue {
         const R = f >> 16;
         const G = f >> 8 & 0x00FF;
         const B = f & 0x0000FF;
-        const outR = ('0' + (Math.round((t - R) * p) + R).toString(16)).substring(-2);
-        const outG = ('0' + (Math.round((t - G) * p) + G).toString(16)).substring(-2);
-        const outB = ('0' + (Math.round((t - B) * p) + B).toString(16)).substring(-2);
-        return outR + outG + outB;
+        const outR = ('0' + (Math.round((t - R) * p) + R).toString(16));
+        const outG = ('0' + (Math.round((t - G) * p) + G).toString(16));
+        const outB = ('0' + (Math.round((t - B) * p) + B).toString(16));
+        return outR.substring(outR.length - 2) + outG.substring(outG.length - 2) + outB.substring(outB.length - 2);
     }
 
-    private get titleStyle(): any {
-        if (this.shortcut.color) {
-            return {
-                color: `#${this.shadeColor(this.shortcut.color.slice(0, -2), -0.15)}`,
-            };
-        }
-
-        return {};
+    private isLight(color: string): boolean {
+        const f = parseInt(color, 16);
+        const R = f >> 16;
+        const G = f >> 8 & 0x00FF;
+        const B = f & 0x0000FF;
+        const lum = 1 - (0.299 * R + 0.587 * G + 0.114 * B) / 255;
+        return lum < 0.5;
     }
 
-    private get tintStyle(): any {
+    private get cardStyle(): any {
+        const base: { [key: string]: any | null } = { 'min-height': '80px', 'background': null };
+
         if (this.shortcut.color) {
-            return {
-                background: `#${this.shortcut.color.slice(0, -2)}`,
-            };
+            const color = this.shortcut.color.slice(0, -2);
+            const isLight = this.isLight(color);
+
+            const offsets = [0, 20, 60, 100];
+            const steps = [0, 0.05, 0.1, 0.15]
+                .map((x) => isLight ? (x * -1) : x)
+                .sort((a, b) => b - a);
+
+            const values: string[] = [];
+            for (const [i, e] of steps.entries()) {
+                values.push(`#${this.shadeColor(color, e)} ${offsets[i]}%`);
+            }
+
+            base.background = [
+                `#${color}`,
+                `linear-gradient(90deg, ${values.join(', ')})`,
+            ];
         }
 
-        return {};
+        return base;
     }
 
     private openShortcut() {

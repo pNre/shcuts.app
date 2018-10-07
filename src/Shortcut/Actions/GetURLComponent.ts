@@ -7,7 +7,7 @@ export default class GetURLComponentAction extends Action implements DefaultCont
     public WFURLComponent?: Value;
 
     constructor(object: any) {
-        super(() => 'Get Component of URL', object, () => ActionComponent);
+        super(() => 'Get Component of URL', object, () => ActionComponent, () => '🔗');
         this.WFURLComponent = NewValue(object.WFWorkflowActionParameters.WFURLComponent);
     }
 

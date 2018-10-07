@@ -1,6 +1,7 @@
 import uuidv4 from 'uuid/v4';
 import { ComponentProvider } from '@/Shortcut/ComponentProvider';
 import Vue, { VueConstructor } from 'vue';
+import { Attachment, AttachmentType } from '@/Shortcut/SerializedValues/Attachment';
 
 export type ActionName = string | VueConstructor<Vue>;
 export type ActionIcon = string | null;
