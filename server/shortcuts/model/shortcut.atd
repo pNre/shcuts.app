@@ -5,6 +5,7 @@ type t = {
   ?description: string option;
   ?plist: string option;
   ?owners_address: string option;
+  views: int <ocaml repr="int64"> <biniou repr="int64">;
 }
 
 type t_list = t list

@@ -7,7 +7,8 @@ type t = Shortcut_t.t = {
   color: string option;
   description: string option;
   plist: string option;
-  owners_address: string option
+  owners_address: string option;
+  views: Int64.t
 }
 
 type t_list = Shortcut_t.t_list
@@ -135,6 +136,15 @@ let write_t : _ -> t -> _ = (
       )
         ob x;
     );
+    if !is_first then
+      is_first := false
+    else
+      Bi_outbuf.add_char ob ',';
+    Bi_outbuf.add_string ob "\"views\":";
+    (
+      Atdgen_runtime.Oj_run.write_int64
+    )
+      ob x.views;
     Bi_outbuf.add_char ob '}';
 )
 let string_of_t ?(len = 1024) x =
@@ -151,6 +161,7 @@ let read_t = (
     let field_description = ref (None) in
     let field_plist = ref (None) in
     let field_owners_address = ref (None) in
+    let field_views = ref (Obj.magic (Sys.opaque_identity 0.0)) in
     let bits0 = ref 0 in
     try
       Yojson.Safe.read_space p lb;
@@ -190,6 +201,14 @@ let read_t = (
                   | 'p' -> (
                       if String.unsafe_get s (pos+1) = 'l' && String.unsafe_get s (pos+2) = 'i' && String.unsafe_get s (pos+3) = 's' && String.unsafe_get s (pos+4) = 't' then (
                         4
+                      )
+                      else (
+                        -1
+                      )
+                    )
+                  | 'v' -> (
+                      if String.unsafe_get s (pos+1) = 'i' && String.unsafe_get s (pos+2) = 'e' && String.unsafe_get s (pos+3) = 'w' && String.unsafe_get s (pos+4) = 's' then (
+                        6
                       )
                       else (
                         -1
@@ -277,6 +296,13 @@ let read_t = (
                 )
               );
             )
+          | 6 ->
+            field_views := (
+              (
+                Atdgen_runtime.Oj_run.read_int64
+              ) p lb
+            );
+            bits0 := !bits0 lor 0x4;
           | _ -> (
               Yojson.Safe.skip_json p lb
             )
@@ -319,6 +345,14 @@ let read_t = (
                     | 'p' -> (
                         if String.unsafe_get s (pos+1) = 'l' && String.unsafe_get s (pos+2) = 'i' && String.unsafe_get s (pos+3) = 's' && String.unsafe_get s (pos+4) = 't' then (
                           4
+                        )
+                        else (
+                          -1
+                        )
+                      )
+                    | 'v' -> (
+                        if String.unsafe_get s (pos+1) = 'i' && String.unsafe_get s (pos+2) = 'e' && String.unsafe_get s (pos+3) = 'w' && String.unsafe_get s (pos+4) = 's' then (
+                          6
                         )
                         else (
                           -1
@@ -406,6 +440,13 @@ let read_t = (
                   )
                 );
               )
+            | 6 ->
+              field_views := (
+                (
+                  Atdgen_runtime.Oj_run.read_int64
+                ) p lb
+              );
+              bits0 := !bits0 lor 0x4;
             | _ -> (
                 Yojson.Safe.skip_json p lb
               )
@@ -413,7 +454,7 @@ let read_t = (
       done;
       assert false;
     with Yojson.End_of_object -> (
-        if !bits0 <> 0x3 then Atdgen_runtime.Oj_run.missing_fields p [| !bits0 |] [| "id"; "name" |];
+        if !bits0 <> 0x7 then Atdgen_runtime.Oj_run.missing_fields p [| !bits0 |] [| "id"; "name"; "views" |];
         (
           {
             id = !field_id;
@@ -422,6 +463,7 @@ let read_t = (
             description = !field_description;
             plist = !field_plist;
             owners_address = !field_owners_address;
+            views = !field_views;
           }
          : t)
       )

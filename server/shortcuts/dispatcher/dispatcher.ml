@@ -2,27 +2,36 @@ open Async
 open Core
 open Cohttp_async
 
+let log_view (shortcut: Model.Shortcut_j.t) =
+  let should_persist_update (shortcut: Model.Shortcut_j.t) = Int64.(equal (rem shortcut.views (of_int 20)) zero) in
+  let updated = Int64.{shortcut with views = shortcut.views + Int64.one} in
+  let update = Storage.Main.update_shortcut updated should_persist_update >>| fun _ -> () in
+  Deferred.don't_wait_for update;
+  updated
+
 let download_shortcut remote_address id =
   try_with (fun () ->
-    Provider.Icloud_shortcut.info ~id
-    >>= (fun r -> Provider.Icloud_shortcut.shortcut_of_record ~record:r)
-    >>= (fun shortcut ->
-      let s = {shortcut with owners_address = Some remote_address} in
-      let insert = Storage.Main.add_shortcut s >>| fun _ -> () in
-      Deferred.don't_wait_for insert;
-      Deferred.return s))
+    let%bind record = Provider.Icloud_shortcut.info ~id in
+    let%bind shortcut = Provider.Icloud_shortcut.shortcut_of_record ~record:record in
+    let s = {shortcut with owners_address = Some remote_address} in
+    let insert = Storage.Main.add_shortcut s >>| fun _ -> () in
+    Deferred.don't_wait_for insert;
+    Deferred.return (Some s))
 
 let find_shortcut remote_address id =
   Storage.Main.shortcut_of_id id
   >>= (function
-    | Ok r -> Deferred.return (Ok r)
-    | Error _ -> download_shortcut remote_address id)
+    | Ok (Some r) -> Deferred.return (Ok (Some r))
+    | _ -> download_shortcut remote_address id)
   >>= function
-    | Ok shortcut -> 
+    | Ok (Some shortcut) -> 
       shortcut
+      |> log_view
       |> Model.Shortcut.prepare_for_response
       |> Model.Shortcut_j.string_of_t
       |> Shared.Server.respond_with_json_string
+    | Ok None ->
+      Shared.Server.respond_with_not_found
     | Error e -> 
       let message = Exn.to_string e in
       Shared.Server.respond_with_internal_server_error ~message

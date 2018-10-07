@@ -1,3 +1,4 @@
 (library
  (name storage)
- (libraries core core_extended async caqti-async caqti-driver-postgresql model))
+ (libraries async_kernel core core_extended async caqti-async caqti-driver-postgresql model)
+ (preprocess (pps ppx_let)))

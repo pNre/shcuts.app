@@ -1,10 +1,8 @@
 module type Cache = sig
+  include Interface.S with type error := unit and type 'a t := 'a
   val drop_shortcuts : unit -> unit
-  val drop_generic : unit -> unit
-  val add_shortcut : Model.Shortcut_t.t -> unit
-  val shortcut_of_id : string -> Model.Shortcut_j.t option
-  val add_shortcuts : int * int -> Model.Shortcut_t.t list -> unit
-  val shortcuts_of_page : int * int -> Model.Shortcut_t.t list option
+  val drop_pages : unit -> unit
+  val add_shortcuts : int * int -> Model.Shortcut_t.t list -> Model.Shortcut_t.t list
 end
 
 module Make: Cache

@@ -7,7 +7,8 @@ type t = {
   color: string option;
   description: string option;
   plist: string option;
-  owners_address: string option
+  owners_address: string option;
+  views: Int64.t
 }
 
 type t_list = t list
