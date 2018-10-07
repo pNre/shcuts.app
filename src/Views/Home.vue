@@ -14,7 +14,8 @@
                     </div>
                 </form>
             </div>
-            <div class="container with-padding">
+            <div v-if="isLoading" class="loading loading-lg" :style="{'min-height': '10rem'}"></div>
+            <div v-else class="container with-padding">
                 <h2>Latest Shortcuts</h2>
                 <div class="columns" v-for="(row, index) in contentRows" :key="'content-row-' + index">
                     <template v-for="shortcut in row">
@@ -79,6 +80,10 @@ export default class Home extends Vue {
         }
 
         return rows;
+    }
+
+    private get isLoading(): boolean {
+        return this.$store.getters.isLoading && this.shortcuts.length === 0;
     }
 
     private created() {
