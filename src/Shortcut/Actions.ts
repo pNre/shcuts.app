@@ -128,6 +128,11 @@ import InstapaperGetAction from '@/Shortcut/Actions/InstapaperGet';
 import DetectAddressAction from '@/Shortcut/Actions/DetectAddress';
 import WaitToReturnAction from '@/Shortcut/Actions/WaitToReturn';
 import SearchLocalBusinessesAction from '@/Shortcut/Actions/SearchLocalBusinesses';
+import PropertiesImagesAction from '@/Shortcut/Actions/PropertiesImages';
+import ImageResizeAction from '@/Shortcut/Actions/ImageResize';
+import ImageCropAction from '@/Shortcut/Actions/ImageCrop';
+import ImageCombineAction from '@/Shortcut/Actions/ImageCombine';
+import SelectPhotoAction from '@/Shortcut/Actions/SelectPhoto';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -268,6 +273,11 @@ const Actions = {
     'is.workflow.actions.detect.address': DetectAddressAction,
     'is.workflow.actions.waittoreturn': WaitToReturnAction,
     'is.workflow.actions.searchlocalbusinesses': SearchLocalBusinessesAction,
+    'is.workflow.actions.properties.images': PropertiesImagesAction,
+    'is.workflow.actions.image.resize': ImageResizeAction,
+    'is.workflow.actions.image.crop': ImageCropAction,
+    'is.workflow.actions.image.combine': ImageCombineAction,
+    'is.workflow.actions.selectphoto': SelectPhotoAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};
