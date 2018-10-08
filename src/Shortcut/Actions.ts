@@ -122,6 +122,12 @@ import FilterCalendarEventsAction from '@/Shortcut/Actions/FilterCalendarEvents'
 import AddMusicToUpNextAction from '@/Shortcut/Actions/AddMusicToUpNext';
 import FilterMusicAction from '@/Shortcut/Actions/FilterMusic';
 import RSSAction from '@/Shortcut/Actions/RSS';
+import TextTranslateAction from '@/Shortcut/Actions/TextTranslate';
+import SetVolumeAction from '@/Shortcut/Actions/SetVolume';
+import InstapaperGetAction from '@/Shortcut/Actions/InstapaperGet';
+import DetectAddressAction from '@/Shortcut/Actions/DetectAddress';
+import WaitToReturnAction from '@/Shortcut/Actions/WaitToReturn';
+import SearchLocalBusinessesAction from '@/Shortcut/Actions/SearchLocalBusinesses';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -256,6 +262,12 @@ const Actions = {
     'is.workflow.actions.addmusictoupnext': AddMusicToUpNextAction,
     'is.workflow.actions.filter.music': FilterMusicAction,
     'is.workflow.actions.rss': RSSAction,
+    'is.workflow.actions.text.translate': TextTranslateAction,
+    'is.workflow.actions.setvolume': SetVolumeAction,
+    'is.workflow.actions.instapaper.get': InstapaperGetAction,
+    'is.workflow.actions.detect.address': DetectAddressAction,
+    'is.workflow.actions.waittoreturn': WaitToReturnAction,
+    'is.workflow.actions.searchlocalbusinesses': SearchLocalBusinessesAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};
