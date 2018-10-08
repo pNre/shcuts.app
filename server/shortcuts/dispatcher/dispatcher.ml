@@ -48,8 +48,12 @@ let list_shortcuts uri =
     |> Model.Shortcut_j.string_of_t_list
     |> Shared.Server.respond_with_json_string
   | Error e -> 
-    let message = Storage.Main.string_of_error e in
-    Shared.Server.respond_with_internal_server_error ~message
+    match Sys.getenv "DEBUG" with
+    | Some _ ->
+      let message = Storage.Main.string_of_error e in
+      Shared.Server.respond_with_internal_server_error ~message
+    | None ->
+      Shared.Server.respond_with_internal_server_error ~message:"Internal server error"
 
 let dispatch ~body:_body address req =
   let remote_address = Async_unix.Socket.Address.to_string address in
