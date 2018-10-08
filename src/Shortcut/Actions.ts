@@ -119,6 +119,9 @@ import HealthQuantityAction from '@/Shortcut/Actions/HealthQuantityLog';
 import UserActivityOpenAction from '@/Shortcut/Actions/UserActivityOpen';
 import SendEmailAction from '@/Shortcut/Actions/SendEmail';
 import FilterCalendarEventsAction from '@/Shortcut/Actions/FilterCalendarEvents';
+import AddMusicToUpNextAction from '@/Shortcut/Actions/AddMusicToUpNext';
+import FilterMusicAction from '@/Shortcut/Actions/FilterMusic';
+import RSSAction from '@/Shortcut/Actions/RSS';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -250,6 +253,9 @@ const Actions = {
     'is.workflow.actions.useractivity.open': UserActivityOpenAction,
     'is.workflow.actions.sendemail': SendEmailAction,
     'is.workflow.actions.filter.calendarevents': FilterCalendarEventsAction,
+    'is.workflow.actions.addmusictoupnext': AddMusicToUpNextAction,
+    'is.workflow.actions.filter.music': FilterMusicAction,
+    'is.workflow.actions.rss': RSSAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};

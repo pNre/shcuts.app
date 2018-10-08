@@ -18,7 +18,11 @@ enum ContentPredicateTemplateOperator {
 }
 
 enum ContentPredicateTemplateUnit {
+    Seconds = 128,
+    Minutes = 64,
+    Hours = 32,
     Days = 16,
+    Weeks = 8192,
     Months = 8,
     Years = 4,
 }
@@ -122,8 +126,6 @@ class ContentPredicateTemplate {
         }
 
         this.VariableOverrides = overrides;
-
-        console.log(source);
     }
 
     public componentConstructor(): VueConstructor {
@@ -145,7 +147,7 @@ class ContentPredicateTemplate {
         });
     }
 
-    private valueForType(type: ContentPredicatePropertyType): any {
+    private valueForType(type: ContentPredicatePropertyType | null): any {
         switch (type) {
             case ContentPredicatePropertyType.Bool:
                 if (typeof this.Bool === 'undefined') {
@@ -157,7 +159,7 @@ class ContentPredicateTemplate {
                 if (this.Number) {
                     return this.Number.toLocaleString();
                 }
-                return NewValue(this.VariableOverrides.boolValue);
+                return NewValue(this.VariableOverrides.numberValue);
             case ContentPredicatePropertyType.Phone:
                 return this.Phone || NewValue(this.VariableOverrides.phoneValue);
             case ContentPredicatePropertyType.String:
@@ -169,7 +171,27 @@ class ContentPredicateTemplate {
                 return this.VariableOverrides.dateValue;
             case ContentPredicatePropertyType.Enumeration:
                 return this.Enumeration || NewValue(this.VariableOverrides.enumerationValue);
+            case null:
+                return null;
         }
+    }
+
+    private guessedType(): ContentPredicatePropertyType | null {
+        if (this.Date || this.VariableOverrides.dateValue) {
+            return ContentPredicatePropertyType.Date;
+        } else if (this.Number || this.VariableOverrides.numberValue) {
+            return ContentPredicatePropertyType.Number;
+        } else if (this.Bool || this.VariableOverrides.boolValue) {
+            return ContentPredicatePropertyType.Bool;
+        } else if (this.Phone || this.VariableOverrides.phoneValue) {
+            return ContentPredicatePropertyType.Phone;
+        } else if (this.String || this.VariableOverrides.stringValue) {
+            return ContentPredicatePropertyType.String;
+        } else if (this.Enumeration || this.VariableOverrides.enumerationValue) {
+            return ContentPredicatePropertyType.Enumeration;
+        }
+
+        return null;
     }
 
     private children(): Array<VueConstructor<Vue> | ChildElement> {
@@ -214,18 +236,39 @@ class ContentPredicateTemplate {
                 break;
         }
 
-        const type = ContentPredicateProperties[this.Property].type;
-        const value = this.valueForType(type);
+        let type: ContentPredicatePropertyType | null;
+        let value: any;
+
+        if (ContentPredicateProperties[this.Property]) {
+            type = ContentPredicateProperties[this.Property].type;
+            value = this.valueForType(type);
+        } else {
+            type = this.guessedType();
+            value = this.valueForType(type);
+        }
 
         if (value && typeof value.componentConstructor === 'function') {
             description.push(value.componentConstructor());
         } else if (value) {
             description.push({ tag: 'mark', content: value});
 
-            if (type === ContentPredicatePropertyType.Date) {
+            if (type === ContentPredicatePropertyType.Date ||
+                type === ContentPredicatePropertyType.Number) {
                 switch (this.Unit) {
+                    case ContentPredicateTemplateUnit.Seconds:
+                        description.push({ tag: 'mark', content: 'seconds'});
+                        break;
+                    case ContentPredicateTemplateUnit.Minutes:
+                        description.push({ tag: 'mark', content: 'minutes'});
+                        break;
+                    case ContentPredicateTemplateUnit.Hours:
+                        description.push({ tag: 'mark', content: 'hours'});
+                        break;
                     case ContentPredicateTemplateUnit.Days:
                         description.push({ tag: 'mark', content: 'days'});
+                        break;
+                    case ContentPredicateTemplateUnit.Weeks:
+                        description.push({ tag: 'mark', content: 'weeks'});
                         break;
                     case ContentPredicateTemplateUnit.Months:
                         description.push({ tag: 'mark', content: 'months'});
@@ -234,7 +277,9 @@ class ContentPredicateTemplate {
                         description.push({ tag: 'mark', content: 'years'});
                         break;
                     default:
-                        description.push(this.VariableOverrides.unitValue.componentConstructor());
+                        if (this.VariableOverrides.unitValue) {
+                            description.push(this.VariableOverrides.unitValue.componentConstructor());
+                        }
                         break;
                 }
             }

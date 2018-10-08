@@ -45,14 +45,16 @@ export class Attachment {
     public componentConstructor(): VueConstructor {
         return Vue.extend({
             render: (createElement) => {
-                const children: any[] = [this.description()];
+                const children: any[] = [];
                 const type = this.type();
                 const aggrandizements = this.aggrandizements();
 
                 if (type) {
-                    children.push(' ');
                     children.push(createElement('span', { class: 'label' }, type));
+                    children.push(' ');
                 }
+
+                children.push(this.description());
 
                 if (aggrandizements.length > 0) {
                     for (const aggrandizement of aggrandizements) {
