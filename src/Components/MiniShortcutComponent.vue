@@ -1,5 +1,5 @@
 <template>
-    <div class="column col-3">
+    <div class="column col-3 col-sm-6">
         <div class="card shortcut-card c-hand" :style="cardStyle" @click="openShortcut">
             <div class="card-header">
                 <div class="card-title shortcut-card-title h5">{{shortcut.name}}</div>

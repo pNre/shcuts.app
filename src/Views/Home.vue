@@ -6,7 +6,7 @@
                 <form @submit.prevent="submit">
                     <div class="columns col-oneline mt-2 mb-2">
                         <div class="column col-6 col-md-6 mt-2">
-                            <input type="text" class="form-input input-lg" placeholder="Shortcut iCloud URL" v-model="urlString">
+                            <input type="text" class="form-input input-lg" placeholder="iCloud URL" v-model="urlString">
                         </div>
                         <div class="column col-2 col-md-4 mt-2">
                             <button class="btn btn-primary btn-lg input-group-btn" :style="{'padding-left': '1rem', 'padding-right': '1rem'}" :disabled="!urlIsValid">Preview</button>

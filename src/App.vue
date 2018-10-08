@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <Progress :progress="progress" />
-        <header class="navbar">
+        <header class="navbar hide-sm">
             <section class="navbar-section">
                 <router-link to="/" class="navbar-brand mr-2">Shortcuts</router-link>
             </section>
