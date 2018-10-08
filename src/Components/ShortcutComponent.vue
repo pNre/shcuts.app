@@ -52,8 +52,6 @@ export default class ShortcutComponent extends Vue {
         if (!this.shortcut) {
             this.$store.dispatch('loadShortcutDetail', this.id);
         }
-
-        this.$store.dispatch('loadShortcutStats', this.id);
     }
 
     private fallbackToHome() {
