@@ -15,7 +15,6 @@
     "spectre.css": "^0.5.3",
     "uuid": "^3.3.2",
     "vue": "^2.5.17",
-    "vue-analytics": "^5.16.0",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.2.0",
     "vue-router": "^3.0.1",
@@ -30,6 +29,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
     "typescript": "^3.1.1",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "vue-ua": "^1.5.0"
   }
 }
