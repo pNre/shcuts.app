@@ -12,6 +12,8 @@
 <style lang="scss">
 .shortcut-card {
     position: relative;
+    border-radius: 12px;
+    border: 0;
 
     &:focus,
     &:hover {
@@ -86,7 +88,7 @@ export default class MiniShortcutComponent extends Vue {
 
             base.background = [
                 `#${color}`,
-                `linear-gradient(90deg, ${values.join(', ')})`,
+                `linear-gradient(135deg, ${values.join(', ')})`,
             ];
         }
 
