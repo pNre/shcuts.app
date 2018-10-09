@@ -116,6 +116,7 @@ class ContentPredicateTemplate {
         this.Phone = source.Phone;
         this.String = source.String;
         this.Date = source.Date;
+        this.Enumeration = source.Enumeration;
 
         const overrides: { [key: string]: Value } = {};
         for (const key of Object.keys(source.VariableOverrides)) {
@@ -181,7 +182,7 @@ class ContentPredicateTemplate {
             return ContentPredicatePropertyType.Date;
         } else if (this.Number || this.VariableOverrides.numberValue) {
             return ContentPredicatePropertyType.Number;
-        } else if (this.Bool || this.VariableOverrides.boolValue) {
+        } else if (!(typeof this.Bool === 'undefined') || this.VariableOverrides.boolValue) {
             return ContentPredicatePropertyType.Bool;
         } else if (this.Phone || this.VariableOverrides.phoneValue) {
             return ContentPredicatePropertyType.Phone;

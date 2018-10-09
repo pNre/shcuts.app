@@ -145,6 +145,9 @@ import FileCreateFolderAction from './Actions/FileCreateFolder';
 import PlaySoundAction from './Actions/PlaySound';
 import EncodeMediaAction from './Actions/EncodeMedia';
 import Base64EncodeAction from './Actions/Base64Encode';
+import TextMatchGetGroupAction from './Actions/TextMatchGetGroup';
+import AddressAction from './Actions/Address';
+import FilterPhotosAction from './Actions/FilterPhotos';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -302,6 +305,9 @@ const Actions = {
     'is.workflow.actions.playsound': PlaySoundAction,
     'is.workflow.actions.encodemedia': EncodeMediaAction,
     'is.workflow.actions.base64encode': Base64EncodeAction,
+    'is.workflow.actions.text.match.getgroup': TextMatchGetGroupAction,
+    'is.workflow.actions.address': AddressAction,
+    'is.workflow.actions.filter.photos': FilterPhotosAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};
