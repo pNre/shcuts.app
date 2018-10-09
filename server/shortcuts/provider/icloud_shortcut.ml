@@ -48,8 +48,8 @@ let info ~id =
     |> Basic.Util.member "name"
     |> Basic.Util.member "value"
     |> Basic.Util.to_string in
-  let description = fields
-    |> Basic.Util.member "longDescription"
-    |> Basic.Util.member "value"
-    |> Basic.Util.to_string_option in
+  let description = 
+    match Basic.Util.member "longDescription" fields with
+    | `Null -> None
+    | member ->  Basic.Util.to_string_option (Basic.Util.member "value" member)  in
   Deferred.return Model.Shortcut_record.{id; name; description; url = download_url}
