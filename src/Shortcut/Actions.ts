@@ -133,6 +133,18 @@ import ImageResizeAction from '@/Shortcut/Actions/ImageResize';
 import ImageCropAction from '@/Shortcut/Actions/ImageCrop';
 import ImageCombineAction from '@/Shortcut/Actions/ImageCombine';
 import SelectPhotoAction from '@/Shortcut/Actions/SelectPhoto';
+import DNDSetAction from './Actions/DNDSet';
+import DetectDateAction from './Actions/DetectDate';
+import GetCurrentLocationAction from './Actions/GetCurrentLocation';
+import GetTimeBetweenDatesAction from './Actions/GetTimeBetweenDates';
+import SetValueForKeyAction from './Actions/SetValueForKey';
+import GetItemNameAction from './Actions/GetItemName';
+import GetRichTextFromMarkdownAction from './Actions/GetRichTextFromMarkdown';
+import MobileNotesSharingExtensionAction from './Actions/MobileNotesSharingExtension';
+import FileCreateFolderAction from './Actions/FileCreateFolder';
+import PlaySoundAction from './Actions/PlaySound';
+import EncodeMediaAction from './Actions/EncodeMedia';
+import Base64EncodeAction from './Actions/Base64Encode';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -278,6 +290,18 @@ const Actions = {
     'is.workflow.actions.image.crop': ImageCropAction,
     'is.workflow.actions.image.combine': ImageCombineAction,
     'is.workflow.actions.selectphoto': SelectPhotoAction,
+    'is.workflow.actions.dnd.set': DNDSetAction,
+    'is.workflow.actions.detect.date': DetectDateAction,
+    'is.workflow.actions.getcurrentlocation': GetCurrentLocationAction,
+    'is.workflow.actions.gettimebetweendates': GetTimeBetweenDatesAction,
+    'is.workflow.actions.setvalueforkey': SetValueForKeyAction,
+    'is.workflow.actions.getitemname': GetItemNameAction,
+    'is.workflow.actions.getrichtextfrommarkdown': GetRichTextFromMarkdownAction,
+    'com.apple.mobilenotes.SharingExtension': MobileNotesSharingExtensionAction,
+    'is.workflow.actions.file.createfolder': FileCreateFolderAction,
+    'is.workflow.actions.playsound': PlaySoundAction,
+    'is.workflow.actions.encodemedia': EncodeMediaAction,
+    'is.workflow.actions.base64encode': Base64EncodeAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};
