@@ -40,6 +40,9 @@ import { Action, Getter } from 'vuex-class';
     components: {
         MiniShortcutComponent,
     },
+    beforeCreate: () => {
+        document.body.className = '';
+    },
 })
 export default class Home extends Vue {
     private urlString: string = '';

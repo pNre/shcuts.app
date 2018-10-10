@@ -72,6 +72,10 @@ header {
         opacity: 1;
     }
 }
+
+.bg-gray-dark {
+    background: lighten($gray-color, 25%);
+}
 </style>
 
 <script lang="ts">

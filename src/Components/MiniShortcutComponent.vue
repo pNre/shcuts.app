@@ -1,6 +1,6 @@
 <template>
     <div class="column col-3 col-sm-6">
-        <div class="card shortcut-card c-hand" :style="cardStyle" @click="openShortcut">
+        <div class="card shortcut-card c-hand p-1" :style="cardStyle" @click="openShortcut">
             <div class="card-header">
                 <div class="card-title shortcut-card-title h5">{{shortcut.name}}</div>
                 <div v-if="shortcut.description" class="card-subtitle shortcut-card-subtitle mt-1">{{shortcut.description}}</div>
@@ -70,7 +70,7 @@ export default class MiniShortcutComponent extends Vue {
     }
 
     private get cardStyle(): any {
-        const base: { [key: string]: any | null } = { 'min-height': '80px', 'background': null };
+        const base: { [key: string]: any | null } = { 'min-height': '90px', 'background': null };
 
         if (this.shortcut.color) {
             const color = this.shortcut.color.slice(0, -2);
