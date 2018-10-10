@@ -148,6 +148,10 @@ import Base64EncodeAction from './Actions/Base64Encode';
 import TextMatchGetGroupAction from './Actions/TextMatchGetGroup';
 import AddressAction from './Actions/Address';
 import FilterPhotosAction from './Actions/FilterPhotos';
+import TweetAction from './Actions/Tweet';
+import AddNewEventAction from './Actions/AddNewEvent';
+import FilterHealthQuantityAction from './Actions/FilterHealthQuantity';
+import AirDropDocumentAction from './Actions/AirDropDocument';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -308,6 +312,11 @@ const Actions = {
     'is.workflow.actions.text.match.getgroup': TextMatchGetGroupAction,
     'is.workflow.actions.address': AddressAction,
     'is.workflow.actions.filter.photos': FilterPhotosAction,
+    'is.workflow.actions.tweet': TweetAction,
+    'is.workflow.actions.addnewevent': AddNewEventAction,
+    'is.workflow.actions.properties.health.quantity': HealthQuantityAction,
+    'is.workflow.actions.filter.health.quantity': FilterHealthQuantityAction,
+    'is.workflow.actions.airdropdocument': AirDropDocumentAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};

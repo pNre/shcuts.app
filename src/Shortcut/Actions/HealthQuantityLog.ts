@@ -9,7 +9,7 @@ export default class HealthQuantityAction extends Action implements DefaultConte
     public WFQuantitySampleDate?: Value;
 
     constructor(object: any) {
-        super(() => 'Log Health Sample', object, () => ActionComponent);
+        super(() => 'Log Health Sample', object, () => ActionComponent, () => '🧡');
         this.WFQuantitySampleType = NewValue(object.WFWorkflowActionParameters.WFQuantitySampleType);
         this.WFQuantitySampleQuantity = NewValue(object.WFWorkflowActionParameters.WFQuantitySampleQuantity);
         this.WFQuantitySampleDate = NewValue(object.WFWorkflowActionParameters.WFQuantitySampleDate);
