@@ -41,6 +41,12 @@
     </div>
 </template>
 
+<style lang="scss">
+.action-card-body {
+    overflow: scroll;
+}
+</style>
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Action } from '@/Shortcut/Action';

@@ -14,7 +14,7 @@ abstract class ValueType implements ComponentProvider {
     public componentConstructor(): VueConstructor {
         return Vue.extend({
             render: (createElement) => {
-                return createElement('span', ` ${this.description()} `);
+                return createElement('span', `${this.description()}`);
             },
         });
     }

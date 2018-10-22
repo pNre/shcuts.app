@@ -22,10 +22,13 @@
     "vuex-class": "^0.3.1"
   },
   "devDependencies": {
+    "@types/prismjs": "^1.9.0",
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-typescript": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
+    "babel-plugin-prismjs": "^1.0.2",
     "node-sass": "^4.9.3",
+    "prismjs": "^1.15.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
     "typescript": "^3.1.1",

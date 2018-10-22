@@ -14,9 +14,6 @@ import ShortcutComponent from '@/Components/ShortcutComponent.vue';
     components: {
         ShortcutComponent,
     },
-    beforeCreate: () => {
-        document.body.className = 'bg-gray-dark';
-    },
 })
 export default class Shortcut extends Vue {}
 </script>

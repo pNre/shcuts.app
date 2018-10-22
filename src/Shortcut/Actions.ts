@@ -152,6 +152,10 @@ import TweetAction from './Actions/Tweet';
 import AddNewEventAction from './Actions/AddNewEvent';
 import FilterHealthQuantityAction from './Actions/FilterHealthQuantity';
 import AirDropDocumentAction from './Actions/AirDropDocument';
+import RunJavaScriptOnWebPageAction from './Actions/RunJavaScriptOnWebPage';
+import OpenInAction from './Actions/OpenIn';
+import PropertiesFileAction from './Actions/PropertiesFile';
+import OverlayImageOnImageAction from './Actions/OverlayImageOnImage';
 
 export class UnknownAction extends Action {
     constructor(object: any) {
@@ -317,6 +321,10 @@ const Actions = {
     'is.workflow.actions.properties.health.quantity': HealthQuantityAction,
     'is.workflow.actions.filter.health.quantity': FilterHealthQuantityAction,
     'is.workflow.actions.airdropdocument': AirDropDocumentAction,
+    'is.workflow.actions.runjavascriptonwebpage': RunJavaScriptOnWebPageAction,
+    'is.workflow.actions.openin': OpenInAction,
+    'is.workflow.actions.properties.files': PropertiesFileAction,
+    'is.workflow.actions.overlayimageonimage': OverlayImageOnImageAction,
 } as { [key: string]: ActionConstructor };
 
 export {Actions};

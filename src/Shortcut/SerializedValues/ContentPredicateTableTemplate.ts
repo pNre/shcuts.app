@@ -168,8 +168,9 @@ class ContentPredicateTemplate {
             case ContentPredicatePropertyType.Date:
                 if (this.Date) {
                     return this.Date!.toLocaleDateString();
+                } else if (this.VariableOverrides.dateValue) {
+                    return this.VariableOverrides.dateValue;
                 }
-                return this.VariableOverrides.dateValue;
             case ContentPredicatePropertyType.Enumeration:
                 return this.Enumeration || NewValue(this.VariableOverrides.enumerationValue);
             case null:
@@ -197,6 +198,7 @@ class ContentPredicateTemplate {
 
     private children(): Array<VueConstructor<Vue> | ChildElement> {
         const description: Array<VueConstructor<Vue> | ChildElement> = [{ tag: 'span', content: this.Property }];
+        let type: ContentPredicatePropertyType | null = null;
 
         switch (this.Operator) {
             case ContentPredicateTemplateOperator.IsBefore:
@@ -225,9 +227,11 @@ class ContentPredicateTemplate {
                 break;
             case ContentPredicateTemplateOperator.IsInTheNext:
                 description.push({ tag: 'strong', content: 'is in the next' });
+                type = ContentPredicatePropertyType.Number;
                 break;
             case ContentPredicateTemplateOperator.IsInTheLast:
                 description.push({ tag: 'strong', content: 'is in the last' });
+                type = ContentPredicatePropertyType.Number;
                 break;
             case ContentPredicateTemplateOperator.IsToday:
                 description.push({ tag: 'strong', content: 'is today' });
@@ -237,16 +241,17 @@ class ContentPredicateTemplate {
                 break;
         }
 
-        let type: ContentPredicatePropertyType | null;
         let value: any;
 
-        if (ContentPredicateProperties[this.Property]) {
-            type = ContentPredicateProperties[this.Property].type;
-            value = this.valueForType(type);
-        } else {
-            type = this.guessedType();
-            value = this.valueForType(type);
+        if (!type) {
+            if (ContentPredicateProperties[this.Property]) {
+                type = ContentPredicateProperties[this.Property].type;
+            } else {
+                type = this.guessedType();
+            }
         }
+
+        value = this.valueForType(type);
 
         if (value && typeof value.componentConstructor === 'function') {
             description.push(value.componentConstructor());
