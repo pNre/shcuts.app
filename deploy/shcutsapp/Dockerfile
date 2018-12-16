@@ -1,7 +1,7 @@
 FROM shcuts-build-image AS binary
-COPY shortcuts /home/opam/shcuts.app
+COPY ../../server /home/opam/shcuts.app
 RUN sudo chown opam:opam -R /home/opam/shcuts.app
-WORKDIR /home/opam/shcuts.app/server
+WORKDIR /home/opam/shcuts.app
 RUN eval `opam config env` && make -j4
 
 FROM debian
