@@ -11,24 +11,36 @@ This is just a toy project so things might not be implemented the best way possi
 Downloads the plists from iCloud, converts them from their binary representation into an XML, saves it in a local database. Saved plists are then exposed via a couple of endpoints to the frontend.
 
 ## Setup
+
 ### Frontend
+
 ```
 npm install
+```
 
+```
 # to build and bug
 npm run serve
-
+```
+```
 # to build for production
 npm run build
 ```
 
-### Backend
+
+### Server
+
+Compile
+
+```
+make
+```
+
+Run
+
 ```
 # connection string for the pgsql database
 export PG_CONNECTION_STRING="postgresql://pNre:@localhost:5432/pNre"
-
-# compile
-make
 
 # run the server serving the static content in the `../dist` folder
 ./bin/shortcuts ../dist
